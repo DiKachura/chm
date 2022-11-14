@@ -1,15 +1,3 @@
-//package com.company.Peacekeeper.Main;
-//
-//public class Main {
-//
-//    public static void main(String[] args) {
-//        Program program = new Program();
-//        program.start();
-//    }
-//}
-
-
-
 package com.company.Peacekeeper.Main;
 
 import com.company.Peacekeeper.methods.Zeidel;
