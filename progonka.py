@@ -3,16 +3,22 @@ from math import *
 import matplotlib.pyplot as plt
 def f(x):
     #return -x
-    return x*(x-1)
+    #return 2*x-pi
+    #return 1
+    return 2*x
 def p(x):
     #return 0
-    return x
+    return 0
 def q(x):
     #return 1
-    return x**2
+    #return 1
+    return -1
 def ans(x):
 
-    return sin(x)/sin(1)-x
+    #return sin(x)/sin(1)-x
+    #return 2*x-pi+pi*cos(x)+230*sin(x)
+    #return -cos(x)-sin(x)+1
+    return exp(x+1)/(exp(2)-1)-exp(-x+1)/(exp(2)-1)-2*x
 def plotting(x, y, ansY) :
     plt.plot(x, y,  color = 'blue', label = 'method progonki', linewidth = 3.0, marker = ".", markersize = 5)
     plt.plot(x, ansY,  color = 'pink', label = 'exact solution', linewidth = 2.0, marker = ".", markersize = 5)
@@ -20,15 +26,30 @@ def plotting(x, y, ansY) :
     plt.show()
 
 """A = 0
-B = 0"""
-
-
-A = 0
 B = 0
 
+a = 0
+b = 1"""
+
+
+"""A = 0
+B = 0
+
+a = 0
+b = pi"""
+
+"""A = 0
+B = 0
+
+a = 0
+b = pi/2"""
+
+A = 0
+B = -1
 
 a = 0
 b = 1
+
 x = [0.000]
 y = []
 m = []
