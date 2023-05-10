@@ -1,82 +1,107 @@
-import math
-from math import *
 import matplotlib.pyplot as plt
-def f(x):
-    #return -x
-    #return 2*x-pi
-    #return 1
-    return 2*x
-def p(x):
-    #return 0
-    return 0
-def q(x):
+import numpy as np
+
+
+
+n = 10
+#754
+'''a = 0
+b = np.pi/2
+k1 = 1
+a1 = 0
+l1 = 1
+b1 = 0'''
+
+#755
+'''a = 0
+b = np.pi
+k1 = 1
+a1 = 0
+l1 = 1
+b1 = 0'''
+
+#749
+a = 0
+b = 1
+k1 = 1
+a1 = 0
+l1 = 1
+b1 = -1
+
+
+def p(t):
+   #return 0
+   #return 0
+   return 0
+
+
+
+def g(t):
     #return 1
     #return 1
     return -1
-def ans(x):
-
-    #return sin(x)/sin(1)-x
-    #return 2*x-pi+pi*cos(x)+230*sin(x)
-    #return -cos(x)-sin(x)+1
-    return exp(x+1)/(exp(2)-1)-exp(-x+1)/(exp(2)-1)-2*x
-def plotting(x, y, ansY) :
-    plt.plot(x, y,  color = 'blue', label = 'method progonki', linewidth = 3.0, marker = ".", markersize = 5)
-    plt.plot(x, ansY,  color = 'pink', label = 'exact solution', linewidth = 2.0, marker = ".", markersize = 5)
-    plt.legend()
-    plt.show()
-
-"""A = 0
-B = 0
-
-a = 0
-b = 1"""
 
 
-"""A = 0
-B = 0
+def f(t):
+    #return 1
+    #return 2*t-np.pi
+    return 2 * t
 
-a = 0
-b = pi"""
+def yt(t):
+    #return -np.cos(t) - np.sin(t)+1
+    #return 2*t-np.pi+np.pi*np.cos(t)
+    return np.e**(t+1)/(np.e**2-1) - np.e**(-t+1)/(np.e**2-1) - 2 * t
 
-"""A = 0
-B = 0
 
-a = 0
-b = pi/2"""
 
-A = 0
-B = -1
 
-a = 0
-b = 1
+h = (b - a) / n
 
-x = [0.000]
-y = []
-m = []
-k = []
-n = 150
-h = (b-a)/n
-# прямой ход
-for i in range(n-1):
-    m.append(-2 + h * p(x[i]))
-    k.append(1 - h * p(x[i]) + h ** 2 * q(x[i]))
-    x.append(x[i] + h)
-c = []
-d = []
-c.append((-h)/(m[0]*(-h)))
-d.append((k[0]*A*h)/(-h) + f(x[0]) * (h**2))
-for i in range(1, n-1):
-    c.append(1/(m[i]-k[i]*c[i-1]))
-    d.append(f(x[i]) * (h**2) - k[i] * c[i-1] * d[i-1])
 
-# обратный ход
-y.append((B*h)/h)
-for i in range(n-2):
-    y.append(c[n-2-i] * (d[n-2-i] - y[i]))
-y.append((A*h)/h)
-y.reverse()
-print(y)
-ansY = []
-for i in range(n):
-    ansY.append(ans(x[i]))
-plotting(x, y, ansY)
+t = np.zeros(n+1)
+aa = np.zeros(n+1)
+bb = np.zeros(n+1)
+cc = np.zeros(n+1)
+ff = np.zeros(n+1)
+for i in range(n+1):
+    t[i] = a + h * i
+    aa[i] = 1 - p(t[i]) * h / 2
+    bb[i] = 1 + p(t[i]) * h / 2
+    cc[i] = 2 - g(t[i]) * h ** 2
+    ff[i] = h ** 2 * f(t[i])
+
+
+al = np.zeros(n+1)
+bet = np.zeros(n+1)
+
+bet[1] = -a1 * h / (- k1 * h)
+
+
+for i in range(1, n):
+    al[i+1] = bb[i] / (cc[i] - al[i] * aa[i])
+    bet[i+1] = (aa[i] * bet[i] - ff[i]) / (cc[i] - al[i] * aa[i])
+
+
+u = np.zeros(n+1)
+u[n] = (b1 * h) / (h * l1)
+
+
+for i in range(n-1, -1, -1):
+    u[i] = al[i+1] * u[i+1] + bet[i+1]
+
+
+print('{:<4} {:<10} {:<10} {:<10} {:<10}'.format('i', 't[i]', 'y[i]', 'yt(t[i])', 'Погрешн.'))
+epsmax = 0
+for i in range(n+1):
+    eps = abs(u[i] - yt(t[i]))
+    if eps > epsmax:
+        epsmax = eps
+    print('{:<4} {:<10.4f} {:<10.4f} {:<10.4f} {:<10.4f}'.format(i, t[i], u[i], yt(t[i]), eps))
+
+print('Максимальная погрешность =', epsmax)
+
+
+plt.plot(t, u, label='u(t)')
+plt.plot(t, yt(t), label='yt(t)')
+plt.legend()
+plt.show()
